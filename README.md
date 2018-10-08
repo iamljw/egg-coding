@@ -1,2 +1,2 @@
-# egg-curd
-Easily build CURD code for egg
+# egg-coding
+Code generator for egg
