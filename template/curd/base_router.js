@@ -17,18 +17,18 @@ module.exports = {
     build(models = []) {
         let include = '';
         models.forEach(item => {
-            include = include.concat(`require('./router/${item}')(app);\r\n`);
+            include = include.concat(`    require('./router/${item}')(app);\r\n`);
         });
         return `'use strict';
 
-        /**
-         * @param {Egg.Application} app - egg application
-         */
-        module.exports = app => {
-          const { router, controller } = app;
-          router.get('/', controller.home.index);
-          ${include}
-        };
-        `;
+/**
+ * @param {Egg.Application} app - egg application
+ */
+module.exports = app => {
+    const { router, controller } = app;
+    router.get('/', controller.home.index);
+${include}
+};
+`;
     }
 };

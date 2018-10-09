@@ -7,6 +7,7 @@ const command = require('../lib/build_command');
 require('yargs')
     .command('curd', 'build curd API and some related documents code', curd)
     .command('init', 'build config & plugin & app.js code', init)
+    .command('model', 'build model code', model)
     .help('h')
     .alias('h', 'help')
     .argv;
@@ -40,10 +41,16 @@ function curd(yargs) {
             type: 'array',
             default: []
         })
+        .option('d', {
+            alias: 'destroy',
+            describe: 'Destroy specified models.',
+            type: 'array',
+            default: []
+        })
         .help('h')
         .alias('h', 'help')
         .argv;
-    command.buildCurd(argv);
+    argv.length ? command.destroyCurd(argv.d) : command.buildCurd(argv);
 }
 /**
  * generate default configuration & plugin
@@ -55,4 +62,21 @@ function init(yargs) {
         .alias('h', 'help')
         .argv;
     command.buildInit();
+}
+/**
+ * generate models
+ * @param {*} yargs ..
+ */
+function model(yargs) {
+    const argv = yargs.reset()
+        .option('f', {
+            alias: 'force',
+            describe: 'if force is specified, it will overwrite existing files.',
+            type: 'boolean',
+            default: false
+        })
+        .help('h')
+        .alias('h', 'help')
+        .argv;
+    command.buildModel(argv);
 }

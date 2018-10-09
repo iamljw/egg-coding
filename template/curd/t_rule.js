@@ -24,22 +24,22 @@ module.exports = {
     },
     build() {
         return `{
-            "create": {
+    "create": {
+
+    },
+    "update": {
         
-            },
-            "update": {
-                
-            },
-            "createMany": {
+    },
+    "createMany": {
+
+    },
+    "deleteMany": {
+
+    },
+    "updateMany": {
         
-            },
-            "deleteMany": {
-        
-            },
-            "updateMany": {
-                
-            }
-        }
-        `;
+    }
+}
+`;
     }
 };

@@ -17,14 +17,14 @@ module.exports = {
     build() {
         return `'use strict';
 
-        module.exports = app => {
-        
-            app.beforeStart(async () => {
-                // 将model同步到数据库
-                await app.model.sync();
-            });
-        
-        };
-        `;
+module.exports = app => {
+
+    app.beforeStart(async () => {
+        // 将model同步到数据库
+        await app.model.sync();
+    });
+
+};
+`;
     }
 };

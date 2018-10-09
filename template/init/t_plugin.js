@@ -17,25 +17,25 @@ module.exports = {
     build() {
         return `'use strict';
 
-        // had enabled by egg
-        // exports.static = true;
-        
-        exports.sequelize = {
-            enable: true,
-            package: 'egg-sequelize'
-        };
-        exports.response = {
-            enable: true,
-            package: 'egg-response'
-        };
-        exports.validate = {
-            enable: true,
-            package: 'egg-validate'
-        };
-        exports.errorHandler = {
-            enable: true,
-            package: 'egg-error-handler'
-        };               
-        `;
+// had enabled by egg
+// exports.static = true;
+
+exports.sequelize = {
+    enable: true,
+    package: 'egg-sequelize'
+};
+exports.response = {
+    enable: true,
+    package: 'egg-response'
+};
+exports.validate = {
+    enable: true,
+    package: 'egg-validate'
+};
+exports.errorHandler = {
+    enable: true,
+    package: 'egg-error-handler'
+};
+`;
     }
 };

@@ -17,56 +17,56 @@ module.exports = {
     build() {
         return `'use strict';
 
-        const { ClientError } = require('../app/errors/client_error');
+const { ClientError } = require('../app/errors/client_error');
 
-        module.exports = appInfo => {
-            const config = exports = {};
-        
-            // use for cookie sign key, should change to your own and keep security
-            config.keys = appInfo.name + '_1538915247520_2775';
-        
-            // add your config here
-            config.middleware = [];
+module.exports = appInfo => {
+    const config = exports = {};
 
-            // cluster
-            config.cluster = {
-                listen: {
-                    port: 7834,
-                    hostname: '0.0.0.0'
-                }
-            };
-        
-            // sequelize
-            config.sequelize = {
-                dialect: 'mysql',
-                host: '127.0.0.1',
-                port: 3306,
-                username: 'root',
-                password: '123456',
-                database: 'egg-coding',
-                define: {
-                    freezeTableName: true,
-                    paranoid: true
-                }
-            };
-        
-            config.security = {
-                csrf: {
-                    enable: false,
-                    ignoreJSON: true
-                },
-                domainWhiteList: ['', '127.0.0.1', '0.0.0.0']
-            };
+    // use for cookie sign key, should change to your own and keep security
+    config.keys = appInfo.name + '_1538915247520_2775';
 
-            // egg-error-handler
-            config.errorHandler2 = {
-                protection: true,
-                tips: '未知错误',
-                ignore: [ClientError]
-            };
-        
-            return config;
-        };        
-        `;
+    // add your config here
+    config.middleware = [];
+
+    // cluster
+    config.cluster = {
+        listen: {
+            port: 7834,
+            hostname: '0.0.0.0'
+        }
+    };
+
+    // sequelize
+    config.sequelize = {
+        dialect: 'mysql',
+        host: '127.0.0.1',
+        port: 3306,
+        username: 'root',
+        password: '123456',
+        database: 'egg-coding',
+        define: {
+            freezeTableName: true,
+            paranoid: true
+        }
+    };
+
+    config.security = {
+        csrf: {
+            enable: false,
+            ignoreJSON: true
+        },
+        domainWhiteList: ['', '127.0.0.1', '0.0.0.0']
+    };
+
+    // egg-error-handler
+    config.errorHandler2 = {
+        protection: true,
+        tips: '未知错误',
+        ignore: [ClientError]
+    };
+
+    return config;
+};
+`;
     }
 };

@@ -25,33 +25,33 @@ module.exports = {
     build() {
         return `'use strict';
 
-        class ClientError extends Error {
-            constructor(message) {
-                super();
-                this.message = message;
-                this.name = 'ClientError';
-            }
-        }
-        
-        class NotFoundError extends ClientError {
-            constructor(message) {
-                super(message);
-                this.name = 'NotFoundError';
-            }
-        }
-        
-        class ExistedError extends ClientError {
-            constructor(message) {
-                super(message);
-                this.name = 'ExistedError';
-            }
-        }
-        
-        module.exports = {
-            ClientError,
-            NotFoundError,
-            ExistedError
-        };
-        `;
+class ClientError extends Error {
+    constructor(message) {
+        super();
+        this.message = message;
+        this.name = 'ClientError';
+    }
+}
+
+class NotFoundError extends ClientError {
+    constructor(message) {
+        super(message);
+        this.name = 'NotFoundError';
+    }
+}
+
+class ExistedError extends ClientError {
+    constructor(message) {
+        super(message);
+        this.name = 'ExistedError';
+    }
+}
+
+module.exports = {
+    ClientError,
+    NotFoundError,
+    ExistedError
+};
+`;
     }
 };

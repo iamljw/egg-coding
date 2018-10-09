@@ -22,21 +22,21 @@ module.exports = {
     build() {
         return `'use strict';
 
-        const { Controller, Service } = require('egg');
-        
-        class BaseController extends Controller {
-            to_int(v) {
-                if (typeof v === 'number') return v;
-                return parseInt(v) || 0;
-            }
-        }
-        
-        class BaseService extends Service {
-        
-        }
-        
-        exports.BaseController = BaseController;
-        exports.BaseService = BaseService;        
-        `;
+const { Controller, Service } = require('egg');
+
+class BaseController extends Controller {
+    to_int(v) {
+        if (typeof v === 'number') return v;
+        return parseInt(v) || 0;
+    }
+}
+
+class BaseService extends Service {
+
+}
+
+exports.BaseController = BaseController;
+exports.BaseService = BaseService;
+`;
     }
 };
