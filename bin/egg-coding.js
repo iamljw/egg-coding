@@ -8,6 +8,7 @@ require('yargs')
     .command('curd', 'build curd API and some related documents code', curd)
     .command('init', 'build config & plugin & app.js code', init)
     .command('model', 'build model code', model)
+    .command('i', 'add & install necessary dependencies of you project.', install)
     .help('h')
     .alias('h', 'help')
     .argv;
@@ -79,4 +80,27 @@ function model(yargs) {
         .alias('h', 'help')
         .argv;
     command.buildModel(argv);
+}
+/**
+ * generate models
+ * @param {*} yargs ..
+ */
+function install(yargs) {
+    const argv = yargs.reset()
+        .option('s', {
+            alias: 'save',
+            describe: 'Saving dependencies information to package.json.',
+            type: 'boolean',
+            default: false
+        })
+        .option('', {
+            alias: 'save-dev',
+            describe: 'Saving devDependencies information to package.json.',
+            type: 'boolean',
+            default: false
+        })
+        .help('h')
+        .alias('h', 'help')
+        .argv;
+    command.install(argv);
 }

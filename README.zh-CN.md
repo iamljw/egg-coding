@@ -27,14 +27,7 @@ Description here.
 ## 依赖说明
 
 >基于eggjs的代码构建工具,orm框架使用sequelize，
-为了代码能正常运行，请确保在你的项目中声明、安装了以下包：
-1. egg-sequelize
-2. mysql2
-3. egg-validate
-4. moment
-5. egg-response
-6. egg-error-handler
-7. uuid
+为了代码能正常运行，在启动你的应用前应该使用命令`egg-coding i`安装必须的依赖
 
 ## 代码风格
 .eslintrc
@@ -64,6 +57,22 @@ $ npm i egg-coding -g
 - 参数校验规则全部放在${baseDir}/app/rules目录下
 - 每一个model在${baseDir}/app/router目录下都有一个router文件，并最终在${baseDir}/app/router.js中引用
 
+### egg-coding i
+```bash
+$ egg-coding i
+```
+>除了安装package.json文件中声明的依赖，还会额外安装一些必须的依赖，并保存到package.json中
+
+**另外**
+>你也可以使用此工具安装依赖，用法和npm一样：
+
+#### 示例
+安装
+```bash
+$ egg-coding i mysql
+$ egg-coding i mysql --save
+$ egg-coding i mysql --save-dev
+```
 ### egg-coding init
 ```bash
 $ egg-coding init

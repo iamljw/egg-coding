@@ -27,14 +27,7 @@ Description here.
 ## Dependency Description
 
 >eggjs based code building tool, orm framework using sequelize,
-In order for the code to work, make sure to declare and install the following packages in your project:
-1. egg-sequelize
-2. mysql2
-3. egg-validate
-4. moment
-5. egg-response
-6. egg-error-handler
-7. uuid
+In order for the code to work properly, you should use the command `egg-coding i`to install the necessary dependencies before starting your application
 
 ## Code Style
 .eslintrc
@@ -63,6 +56,27 @@ $ npm i egg-coding -g
 - The model is the same as the database table name, for example, app/model/student.js corresponds to the student table.
 - Parameter validation rules are all placed in the ${baseDir}/app/rules directory
 - Each model has a router file in the ${baseDir}/app/router directory and is eventually referenced in ${baseDir}/app/router.js
+
+### egg-coding i
+```bash
+$ egg-coding i
+```
+>In addition to installing the dependencies declared in the package.json file, additional necessary dependencies are installed and saved to package.json
+
+You can also use this tool to install dependencies, which is the same as NPM.
+
+An example
+
+install
+
+```bash
+
+$ egg-coding I MySQL
+
+$ egg-coding I MySQL --save
+
+$ egg-coding I MySQL --save-dev
+```
 
 ### egg-coding init
 ```bash

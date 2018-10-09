@@ -5,6 +5,9 @@ const fs = require('fs');
 
 module.exports = {
     coding(data) {
+        if (!fs.existsSync('app/model')) {
+            fs.mkdirSync('app/model');
+        }
         data.models.forEach(item => {
             const camelCase = toCamelCase(item);
             if (!data.force) {
