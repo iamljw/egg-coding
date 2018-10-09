@@ -1,6 +1,6 @@
 {
   "name": "egg-coding",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Code generator for egg",
   "main": "lib/build_command.js",
   "scripts": {
@@ -35,7 +35,8 @@
   "preferGlobal": true,
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "template"
   ],
   "engines": {
     "node": ">=4.0.0"
