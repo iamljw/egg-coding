@@ -31,13 +31,23 @@ module.exports = {
         
     },
     "createMany": {
-
+        "objs": {
+            "type": "array",
+            "rule": {
+                
+            }
+        }
     },
     "deleteMany": {
 
     },
     "updateMany": {
-        
+        "fields":{
+
+        },
+        "where":{
+
+        }
     }
 }
 `;

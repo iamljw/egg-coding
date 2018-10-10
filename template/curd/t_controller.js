@@ -79,7 +79,7 @@ class ${data.Model}Controller extends BaseController {
     async createMany() {
         const { ctx, service } = this;
         ctx.validate(createManyRule);
-        await service.${data.model}.createMany(ctx.request.body);
+        await service.${data.model}.createMany(ctx.request.body.objs);
         ctx.successful('批量创建成功', { isData: false });
     }
     /**

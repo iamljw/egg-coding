@@ -23,10 +23,13 @@
 <!--
 Description here.
 -->
+## 前言
+
+该工具只构建基础代码，对数据库的原子性操作，生成接口以及一些辅助代码，方便快速开发，不参与任何业务逻辑
 
 ## 依赖说明
 
->基于eggjs的代码构建工具,orm框架使用sequelize，
+基于eggjs和sequelize的代码构建工具，
 为了代码能正常运行，在启动你的应用前应该使用命令`egg-coding i`安装必须的依赖
 
 ## 代码风格
@@ -45,68 +48,118 @@ Description here.
 ```
 
 ## 安装
-
+全局安装
 ```bash
 $ npm i egg-coding -g
 ```
 
-## 使用
->切换到项目根目录再使用该工具
-### 编码规范
+## 目录结构
+构建完成后将会有以下目录结构
+```
+egg-project
+├── package.json  
+├── app.js
+├── app  
+|   ├── router.js
+│   ├── base_context_class.js(提供基类，便于扩展)
+│   ├── controller(控制层)
+│   |   └── user.js
+│   ├── service（业务逻辑层）
+│   |   └── user.js
+│   ├── router（路由）
+│   |   └── user.js
+│   ├── model（数据库模型）
+│   |   └── user.js
+│   ├── rules（参数验证规则）
+│   |   └── user.json
+│   ├── errors（DIY异常类）
+│   |   └── client_error.js
+│   ├── utils（工具）
+│   |   └── date_format.js
+├── config  
+|   ├── plugin.js（插件列表）
+|   ├── config.default.js（默认配置）
+└── test
+    ├── middleware  
+    |   └── response_time.test.js  
+    └── controller  
+        └── home.test.js
+```
+## 开发规范
 - 模型与数据库表名相同，例如app/model/student.js对应student表
+- 每一个model在${baseDir}/app/router目录下都有一个router模块，并最终在${baseDir}/app/router.js中引用
+- 开启时间戳和软删除
 - 参数校验规则全部放在${baseDir}/app/rules目录下
-- 每一个model在${baseDir}/app/router目录下都有一个router文件，并最终在${baseDir}/app/router.js中引用
+- 所有controller和service都继承base_context_class提供的BaseController和BaseService
+- 非代码异常都在errors/client_error.js中定义
+- 时间戳统一格式化处理
+- 使用插件egg-response发送响应数据
+- 使用插件egg-error-handler处理异常
+## 测试
+默认提供的接口，其中order为表名
+```js
+'use strict';
 
-### egg-coding i
+/**
+ * @param {Egg.Application} app - egg application
+ */
+module.exports = app => {
+    const { router, controller } = app;
+    router.resources('/api/v1/order', controller.order);
+    router.post('/api/v1/order/createMany', controller.order.createMany);
+    router.post('/api/v1/order/deleteMany', controller.order.deleteMany);
+    router.post('/api/v1/order/updateMany', controller.order.updateMany);
+    router.post('/api/v1/order/findOne', controller.order.findOne);
+    router.post('/api/v1/order/findByExample', controller.order.findByExample);
+};
+```
+## 快速开发
+### 第一步
+使用`egg-init`初始化一个项目
+```bash
+$ egg-init egg-project --type=simple
+```
+### 第二步
+使用`egg-coding i`安装依赖包
 ```bash
 $ egg-coding i
 ```
->除了安装package.json文件中声明的依赖，还会额外安装一些必须的依赖，并保存到package.json中
-
-**另外**
->你也可以使用此工具安装依赖，用法和npm一样：
-
-#### 示例
-安装
-```bash
-$ egg-coding i mysql
-$ egg-coding i mysql --save
-$ egg-coding i mysql --save-dev
-```
-### egg-coding init
+### 第三步
+使用 `egg-coding init`初始化启动文件、默认配置、开启插件
 ```bash
 $ egg-coding init
 ```
->初始化文件：app.js & config.default.js & plugin.js
-### egg-coding model
+*按需修改默认配置*
+### 第四步
+使用`egg-coding model`创建数据库模型
 ```bash
 $ egg-coding model model1 model2 model3...
 ```
->创建一个或多个model，在*${baseDir}/app/model*目录下
-
-**参数**
-- -f: 强制执行，会覆盖原有文件
-### egg-coding curd
+*按需修改模型，编写表字段*
+### 第五步
+使用`egg-coding curd`构建代码
 ```bash
-$ egg-coding curd -p /api/v1
+$ egg-coding curd -p /api/v1 -r
 ```
->生成curd API，包括router、rules、controller、service、errors、base_context_class
-
-**所有Controller和Service都继承base_context_class提供的基类**  
-**参数**  
--   -p: 请求根路径，默认为/api/v1
--   -f: 强制执行，会覆盖原有文件
--   -r: 生成${baseDir}/app/router.js文件
--   -u: 更新一个或多个模型,重新生成相关文件
--   -d: 删除一个或多个模型，以及相关文件
-
-**如果需要获取更多帮助, 请使用以下命令:**
+*按需修改验证规则*
+### 本地调试
+```bash
+$ npm run dev
 ```
+*默认端口为7834*,
+整个过程不会超过10分钟
+
+### 命令参数
+使用`--help` 或 `-h`获取帮助
+```bash
 $ egg-coding -h
 ```
-子命令:
+子命令
 ```
-$ egg-coding 子命令 -h
+$ egg-coding i -h
+$ egg-coding init -h
+$ egg-coding model -h
+$ egg-coding curd -h
 ```
 ## 提问交流
 请到 [egg issues](https://github.com/iamljw/egg-coding/issues) 异步交流。

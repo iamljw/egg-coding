@@ -23,95 +23,143 @@
 <!--
 Description here.
 -->
+## Foreword
+
+The tool only builds the underlying code, atomic operations on the database, generates interfaces and some auxiliary code for quick development and does not participate in any business logic.
 
 ## Dependency Description
 
->eggjs based code building tool, orm framework using sequelize,
-In order for the code to work properly, you should use the command `egg-coding i`to install the necessary dependencies before starting your application
+Code building tools based on eggjs and sequelize,
+In order for the code to work, you should use the command `egg-coding i` to install the necessary dependencies before starting your application.
 
 ## Code Style
 .eslintrc
 ```
 {
-  "extends": "eslint-config-egg",
-  "rules": {
-    "indent": [2, 4,{ "SwitchCase": 1 }],
-    "comma-dangle": ["error", "never"],
-    "array-bracket-spacing":["error","never"]
-  }
-  
+  "extends": "eslint-config-egg",
+  "rules": {
+    "indent": [2, 4,{ "SwitchCase": 1 }],
+    "comma-dangle": ["error", "never"],
+    "array-bracket-spacing":["error","never"]
+  }
+  
 }
 
 ```
 
 ## Installation
-
+Global installation
 ```bash
 $ npm i egg-coding -g
 ```
 
-## Use
->Switch to the project root directory and use the tool
-### Coding Standards
+## Directory Structure
+After the build is completed, there will be the following directory structure.
+```
+egg-project
+├── package.json
+├── app.js
+├── app
+| ├── router.js
+│ ├── base_context_class.js (provides a base class for easy extension)
+│ ├── controller (control layer)
+│ | └── user.js
+│ ├── service (business logic layer)
+│ | └── user.js
+│ ├── router
+│ | └── user.js
+│ ├── model (database model)
+│ | └── user.js
+│ ├── rules (parameter verification rules)
+│ | └── user.json
+│ ├── errors(DIY exception class)
+│ | └── client_error.js
+│ ├── utils (tool)
+│ | └── date_format.js
+├── config
+| ├── plugin.js (plugin list)
+| ├── config.default.js (default configuration)
+└── test
+    ├── middleware
+    | └── response_time.test.js
+    └──controller
+        └── home.test.js
+```
+## Development Specifications
 - The model is the same as the database table name, for example, app/model/student.js corresponds to the student table.
+- Each model has a router module in the ${baseDir}/app/router directory and is eventually referenced in ${baseDir}/app/router.js
+- Turn on timestamp and soft delete
 - Parameter validation rules are all placed in the ${baseDir}/app/rules directory
-- Each model has a router file in the ${baseDir}/app/router directory and is eventually referenced in ${baseDir}/app/router.js
+- All controllers and services inherit the BaseController and BaseService provided by base_context_class
+- Non-code exceptions are defined in errors/client_error.js
+- Time stamp unified formatting
+- Send response data using plugin egg-response
+- Handling exceptions using the plugin egg-error-handler
+## Testing
+The interface provided by default, where order is the table name
+```js
+'use strict';
 
-### egg-coding i
+/**
+ * @param {Egg.Application} app - egg application
+ */
+Module.exports = app => {
+    Const { router, controller } = app;
+    Router.resources('/api/v1/order', controller.order);
+    Router.post('/api/v1/order/createMany', controller.order.createMany);
+    Router.post('/api/v1/order/deleteMany', controller.order.deleteMany);
+    Router.post('/api/v1/order/updateMany', controller.order.updateMany);
+    Router.post('/api/v1/order/findOne', controller.order.findOne);
+    Router.post('/api/v1/order/findByExample', controller.order.findByExample);
+};
+```
+## Rapid development
+### First step
+Initialize a project with `egg-init`
+```bash
+$ egg-init egg-project --type=simple
+```
+### Second step
+Install the dependency package with `egg-coding i`
 ```bash
 $ egg-coding i
 ```
->In addition to installing the dependencies declared in the package.json file, additional necessary dependencies are installed and saved to package.json
-
-You can also use this tool to install dependencies, which is the same as NPM.
-
-An example
-
-install
-
-```bash
-
-$ egg-coding I MySQL
-
-$ egg-coding I MySQL --save
-
-$ egg-coding I MySQL --save-dev
-```
-
-### egg-coding init
+### third step
+Use `egg-coding init` to initialize the startup file, default configuration, and enable the plugin
 ```bash
 $ egg-coding init
 ```
->Initialization file: app.js & config.default.js & plugin.js
-### egg-coding model
+*Modify the default configuration as needed*
+### fourth step
+Create a database model using `egg-coding model`
 ```bash
 $ egg-coding model model1 model2 model3...
 ```
->Create one or more models in the *${baseDir}/app/model* directory
-
-**parameter**
-- -f: Enforce, overwrite old file
-### egg-coding curd
+*Modify the model as needed, write table fields*
+### Fifth step
+Build code with `egg-coding curd`
 ```bash
-$ egg-coding curd -p /api/v1
+$ egg-coding curd -p /api/v1 -r
 ```
->Generate the curd API, including router, rules, controller, service, errors, base_context_class
-
-**All Controllers and Services inherit the base class provided by base_context_class**
-**Parameter**
-- -p: request root path, default is /api/v1
-- -f: Enforce, overwrite old file
-- -r: Generate ${baseDir}/app/router.js file
-- -u: Update one or more models and regenerate related files
-- -d: delete one or more models, and related files
-
-**If you need more help, please use the following command:**
+*Modify verification rules as needed*
+### Local debugging
+```bash
+$ npm run dev
 ```
+*The default port is 7834*,
+The whole process will not exceed 10 minutes
+
+### Command Parameters
+Get help with `--help` or `-h`
+```bash
 $ egg-coding -h
 ```
-Subcommand:
+Subcommand
 ```
-$ egg-coding subcommand -h
+$ egg-coding i -h
+$ egg-coding init -h
+$ egg-coding model -h
+$ egg-coding curd -h
 ```
 ## Asking questions
 Please go to [egg issues] (https://github.com/iamljw/egg-coding/issues) for asynchronous communication.
