@@ -119,7 +119,8 @@ class ${data.Model}Service extends BaseService {
      */
     async findOne(where) {
         const obj = await this.ctx.model.${data.Model}.findOne({
-            where
+            where,
+            raw: true
         });
         if (!obj) {
             throw new NotFoundError(\`不存在条件为\${where}的记录\`);

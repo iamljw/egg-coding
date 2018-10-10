@@ -18,6 +18,7 @@ module.exports = {
         return `'use strict';
 
 const { ClientError } = require('../app/errors/client_error');
+const dateFormat = require('../app/utils/date_format');
 
 module.exports = appInfo => {
     const config = exports = {};
@@ -46,7 +47,10 @@ module.exports = appInfo => {
         database: 'egg-coding',
         define: {
             freezeTableName: true,
-            paranoid: true
+            paranoid: true,
+            hooks: {
+                afterFind: dateFormat
+            }
         }
     };
 

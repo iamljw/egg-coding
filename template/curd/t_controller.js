@@ -28,7 +28,6 @@ const createManyRule = require('../rules/${data.underscore}.json').createMany;
 const deleteManyRule = require('../rules/${data.underscore}.json').deleteMany;
 const updateManyRule = require('../rules/${data.underscore}.json').updateMany;
 const updateRule = require('../rules/${data.underscore}.json').update;
-const moment = require('moment');
 
 class ${data.Model}Controller extends BaseController {
     /**
@@ -62,11 +61,8 @@ class ${data.Model}Controller extends BaseController {
      */
     async show() {
         const { ctx, service } = this;
-        const { dataValues } = await service.${data.model}.show(ctx.params.id);
-        for (const field of ['createdAt', 'updatedAt']) {
-            dataValues[field] = moment(dataValues[field]).format('YYYY-MM-DD HH:mm:ss');
-        }
-        ctx.successful(dataValues);
+        const data = await service.${data.model}.show(ctx.params.id);
+        ctx.successful(data);
     }
     /**
      * 查询所有
@@ -75,12 +71,6 @@ class ${data.Model}Controller extends BaseController {
         const { ctx, service } = this;
         const { page, size } = ctx.query;
         const data = await service.${data.model}.index(parseInt(page), parseInt(size));
-        data.rows = await data.rows.map(row => {
-            for (const field of ['createdAt', 'updatedAt']) {
-                row[field] = moment(row[field]).format('YYYY-MM-DD HH:mm:ss');
-            }
-            return row;
-        });
         ctx.successful(data);
     }
     /**
@@ -116,11 +106,8 @@ class ${data.Model}Controller extends BaseController {
      */
     async findOne() {
         const { ctx, service } = this;
-        const { dataValues } = await service.${data.model}.findOne(ctx.request.body);
-        for (const field of ['createdAt', 'updatedAt']) {
-            dataValues[field] = moment(dataValues[field]).format('YYYY-MM-DD HH:mm:ss');
-        }
-        ctx.successful(dataValues);
+        const data = await service.${data.model}.findOne(ctx.request.body);
+        ctx.successful(data);
     }
     /**
      * 条件查询,返回所有符合条件的记录
@@ -129,12 +116,6 @@ class ${data.Model}Controller extends BaseController {
         const { ctx, service, to_int } = this;
         const { page, size } = ctx.query;
         const data = await service.${data.model}.findByExample(to_int(page), to_int(size), ctx.request.body);
-        data.rows = await data.rows.map(row => {
-            for (const field of ['createdAt', 'updatedAt']) {
-                row[field] = moment(row[field]).format('YYYY-MM-DD HH:mm:ss');
-            }
-            return row;
-        });
         ctx.successful(data);
     }
 }
