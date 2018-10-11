@@ -68,9 +68,9 @@ class ${data.Model}Controller extends BaseController {
      * 查询所有
      */
     async index() {
-        const { ctx, service } = this;
+        const { ctx, service, to_int } = this;
         const { page, size } = ctx.query;
-        const data = await service.${data.model}.index(parseInt(page), parseInt(size));
+        const data = await service.${data.model}.index(to_int(page), to_int(size));
         ctx.successful(data);
     }
     /**
