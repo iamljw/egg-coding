@@ -15,6 +15,9 @@ module.exports = {
 const moment = require('moment');
 
 module.exports = obj => {
+    if (!obj) {
+        return;
+    }
     if (obj.dataValues) {
         let { dataValues } = obj;
         if (dataValues instanceof Array) {
