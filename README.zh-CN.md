@@ -113,6 +113,7 @@ module.exports = app => {
     router.post('/api/v1/order/findByExample', controller.order.findByExample);
 };
 ```
+[查看更多](api.md)
 ## 快速开发
 ### 第一步
 使用`egg-init`初始化一个项目

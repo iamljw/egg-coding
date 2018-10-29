@@ -113,6 +113,7 @@ Module.exports = app => {
     Router.post('/api/v1/order/findByExample', controller.order.findByExample);
 };
 ```
+[see more](api.md)
 ## Rapid development
 ### First step
 Initialize a project with `egg-init`
